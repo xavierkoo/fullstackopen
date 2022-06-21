@@ -1,20 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Person from './components/Person'
 import Filter from './components/Filter'
 import Add from './components/Add'
+import personService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122'}
-  ]) 
-
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [filterPersons, setFilterPersons] = useState([])
+
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
   const addObject = (event) => {
     event.preventDefault()
@@ -23,10 +26,26 @@ const App = () => {
       number: newNum
     }
 
+    const updatePerson = persons.filter(person => person.name === newName)[0]
+    console.log(updatePerson)
+    const updatePersonObject = { ...updatePerson, number: newNum }
+    console.log(updatePersonObject)
+
     if (persons.some(persons => persons.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(updatePersonObject.id, updatePersonObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== updatePersonObject.id ? person : returnedPerson))
+          })
+      }
+
     } else {
-      setPersons(persons.concat(nameObject))
+      personService
+        .create(nameObject)
+        .then(returnName => {
+          setPersons(persons.concat(returnName))
+        })
     }
     setNewName('')
     setNewNum('')
@@ -47,17 +66,28 @@ const App = () => {
     setFilterPersons(filteredPersons)
   }
 
-  const Display = ({filterPersons, persons}) => {
+  const deletePerson = (id) => {
+    const delPerson = persons.filter(person => person.id === id)
+    const delPersonName = delPerson[0].name
+    const delPersonId = delPerson[0].id
+    if (window.confirm(`Delete ${delPersonName} ?`)) {
+      personService
+        .remove(delPersonId)
+      setPersons(persons.filter(person => person.id !== delPersonId))
+    }
+  }
+
+  const Display = ({filterPersons, persons, deletePerson}) => {
     if (filterPersons.length > 0) {
       return (
         filterPersons.map(filterPerson => 
-          <Person key={filterPerson.name} person={filterPerson} />
+          <Person key={filterPerson.name} person={filterPerson} deletePerson={deletePerson} />
         )
       )
     } else {
         return (
           persons.map(person => 
-            <Person key={person.name} person={person} />
+            <Person key={person.name} person={person} deletePerson={deletePerson}/>
           )
         )
     }
@@ -73,7 +103,7 @@ const App = () => {
       </div>
       <h2>Numbers</h2>
       <div>
-        <Display filterPersons={filterPersons} persons={persons} />
+        <Display filterPersons={filterPersons} persons={persons} deletePerson={deletePerson}/>
       </div>
     </div>
     
