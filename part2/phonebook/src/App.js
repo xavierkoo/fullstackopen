@@ -3,6 +3,7 @@ import Person from './components/Person'
 import Filter from './components/Filter'
 import Add from './components/Add'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,6 +11,7 @@ const App = () => {
   const [newNum, setNewNum] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [filterPersons, setFilterPersons] = useState([])
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     personService
@@ -38,6 +40,15 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== updatePersonObject.id ? person : returnedPerson))
           })
+          .catch(error => {
+            console.log(error)
+            setNotification(
+              `Information of ${newName} has already been removed from server`
+            )
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
+          })
       }
 
     } else {
@@ -45,6 +56,10 @@ const App = () => {
         .create(nameObject)
         .then(returnName => {
           setPersons(persons.concat(returnName))
+          setNotification(`Added ${newName}`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
     }
     setNewName('')
@@ -70,7 +85,7 @@ const App = () => {
     const delPerson = persons.filter(person => person.id === id)
     const delPersonName = delPerson[0].name
     const delPersonId = delPerson[0].id
-    if (window.confirm(`Delete ${delPersonName} ?`)) {
+    if (window.confirm(`Delete ${delPersonName}?`)) {
       personService
         .remove(delPersonId)
       setPersons(persons.filter(person => person.id !== delPersonId))
@@ -96,6 +111,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+          <Notification message={notification}/>
+      </div>
         <Filter value={newFilter} onChange={handleFilterChange} />
       <h2>add a new</h2>
       <div>
