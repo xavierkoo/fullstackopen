@@ -1,0 +1,21 @@
+GET https://stormy-lake-04219.herokuapp.com/api/persons/someInvalidId
+###
+POST https://stormy-lake-04219.herokuapp.com/api/persons/
+Content-Type: application/json
+
+{
+    "name": "",
+    "number": 
+}
+###
+
+DELETE https://stormy-lake-04219.herokuapp.com/api/persons/62cf1a0201b558901a8040b3
+###
+
+PUT https://stormy-lake-04219.herokuapp.com/api/persons/62cec99342a18e282fbc4155
+Content-Type: application/json
+
+{
+    "name": "Bob",
+    "number": 898989893
+}
