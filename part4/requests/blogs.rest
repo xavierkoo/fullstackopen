@@ -1,0 +1,25 @@
+GET http://localhost:3001/api/blogs
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Cleaning for Dummies",
+  "author": "Bob Dylan",
+  "url": "www.bobwergbykoko.com",
+  "likes": 32032
+}
+###
+
+DELETE  http://localhost:3001/api/blogs/62dc043ca64399fe476b1544
+###
+
+PUT http://localhost:3001/api/blogs/62eaa0732a0c05525c5951a4
+Content-Type: application/json
+
+{
+  "title": "Cleaning for Dummies",
+  "author": "Bob Dylan",
+  "url": "www.bobwergbykoko.com",
+  "likes": 32032
+}

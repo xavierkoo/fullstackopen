@@ -121,37 +121,20 @@ describe('adding a blog', () => {
 
 describe('updating a blog', () => {
   test('updating blog likes', async () => {
-    const newBlog = {
-      title: "Baking for Dummies",
-      author: "Bober Dylan",
-      url: "www.boberdyl.com",
-      likes: 125
-    }
-  
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
-  
-    const allBlogs = await helper.blogsInDb()
-    const blogToUpdate = allBlogs.find(blog => blog.title === newBlog.title)
-  
+    const blogStart = (await helper.blogsInDb())[0]
     const updatedBlog = {
-      ...blogToUpdate,
-      likes: blogToUpdate.likes + 1
+      ...blogStart,
+      likes: 100
     }
-    
+    console.log(updatedBlog)
     await api
-      .put(`/api/blogs/${blogToUpdate.id}`)
+      .put(`/api/blogs/${blogStart.id}`)
       .send(updatedBlog)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
-    
+      .expect(200)
+
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
-    const foundBlog = blogsAtEnd.find(blogs => blogs.like === 126)
-    expect(foundBlog.likes).toBe(126)
+    const aBlogAtEnd = blogsAtEnd.find(b => b.id === blogStart.id)
+    expect(aBlogAtEnd.likes).toBe(100)
   })
 })
 
