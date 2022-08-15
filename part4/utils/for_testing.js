@@ -1,14 +1,10 @@
-const reverse = (string) => {
-  return string
-    .split('')
-    .reverse()
-    .join('')
-}
+const reverse = (string) => string
+  .split('')
+  .reverse()
+  .join('')
 
 const average = (array) => {
-  const reducer = (sum, item) => {
-    return sum + item
-  }
+  const reducer = (sum, item) => sum + item
 
   return array.length === 0
     ? 0
