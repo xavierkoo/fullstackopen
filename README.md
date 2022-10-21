@@ -8,16 +8,16 @@ This project is the exercises of the Full Stack Open by University of Helsinki(h
 
 ## Table of Contents
 
-- Part 1: Introduction to React
+- Part 1: Introduction to React(./part1)
   - anecdotes
   - courseinfo
   - unicafe
-- Part 2: Communicating with Server
+- Part 2: Communicating with Server(./part2)
   - country data
   - courseinfo
   - phonebook
-- Part 3: Programming a server with NodeJS and Express
+- Part 3: Programming a server with NodeJS and Express(./part3)
   - fullstack phonebook
-- Part 4: Testing Express servers, user administration
+- Part 4: Testing Express servers, user administration(./part4)
   - fullstack bloglist app with unit tests
 
