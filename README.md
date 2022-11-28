@@ -1,8 +1,8 @@
 # Full Stack Open
 
-This project is the exercises of the Full Stack Open by University of Helsinki(https://fullstackopen.com/en/).
+This project contains the exercises from the Full Stack Open by the University of Helsinki(https://fullstackopen.com/en/).
 
-## What is `Full Stack Open`
+## What is `Full Stack Open` ?
 
 > Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go! This course will introduce you to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js.
 
@@ -19,5 +19,5 @@ This project is the exercises of the Full Stack Open by University of Helsinki(h
 - [Part 3: Programming a server with NodeJS and Express](./part3)
   - fullstack phonebook
 - [Part 4: Testing Express servers, user administration](./part4)
-  - fullstack bloglist app with unit tests
+  - fullstack bloglist app with integration tests
 
